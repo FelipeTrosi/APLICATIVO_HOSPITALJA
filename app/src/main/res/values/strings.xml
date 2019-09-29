@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">AM_HospitalJa</string>
+    <string name="LabelEspec">Escolha a especialidade</string>
+    <string name="SelectEspec">Selecione</string>
+    <string name="Send">Buscar</string>
+    <string name="title_activity_second_activity">second_activity</string>
+</resources>
