@@ -25,10 +25,12 @@ public class MainActivity extends AppCompatActivity {
         this.buttonSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, second_activity.class);
+                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+
                 Bundle params = new Bundle();
                 params.putString("SelectEspec", SelectEspec.getText().toString());
                 intent.putExtras(params);
+
                 startActivity(intent);
             }
         });

@@ -4,4 +4,5 @@
     <string name="SelectEspec">Selecione</string>
     <string name="Send">Buscar</string>
     <string name="title_activity_second_activity">second_activity</string>
+    <string name="title_activity_third">ThirdActivity</string>
 </resources>

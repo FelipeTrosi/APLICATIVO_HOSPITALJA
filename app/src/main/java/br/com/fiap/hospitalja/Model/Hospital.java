@@ -1,8 +1,11 @@
 package br.com.fiap.hospitalja.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
-public class Hospital {
+public class Hospital implements Parcelable {
 
     private int codigo;
     private String nome;
@@ -12,6 +15,8 @@ public class Hospital {
     private String latitude;
     private String longitude;
     private List<Especialidade> especialidades;
+
+
 
     public int getCodigo() {
         return codigo;
@@ -75,5 +80,56 @@ public class Hospital {
 
     public void setEspecialidades(List<Especialidade> especialidades) {
         this.especialidades = especialidades;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(codigo);
+        dest.writeString(nome);
+        dest.writeString(endereco);
+        dest.writeString(fila);
+        dest.writeString(tempoEspera);
+        dest.writeString(latitude);
+        dest.writeString(longitude);
+    }
+    protected Hospital(Parcel in) {
+        codigo = in.readInt();
+        nome = in.readString();
+        endereco = in.readString();
+        fila = in.readString();
+        tempoEspera = in.readString();
+        latitude = in.readString();
+        longitude = in.readString();
+    }
+
+    public static final Creator<Hospital> CREATOR = new Creator<Hospital>() {
+        @Override
+        public Hospital createFromParcel(Parcel in) {
+            return new Hospital(in);
+        }
+
+        @Override
+        public Hospital[] newArray(int size) {
+            return new Hospital[size];
+        }
+    };
+
+    public Hospital(int codigo, String nome, String endereco, String fila, String tempoEspera, String latitude, String longitude, List<Especialidade> especialidades) {
+        this.codigo = codigo;
+        this.nome = nome;
+        this.endereco = endereco;
+        this.fila = fila;
+        this.tempoEspera = tempoEspera;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.especialidades = especialidades;
+    }
+
+    public Hospital() {
     }
 }

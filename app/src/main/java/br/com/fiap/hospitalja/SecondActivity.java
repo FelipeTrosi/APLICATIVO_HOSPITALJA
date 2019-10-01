@@ -2,6 +2,7 @@ package br.com.fiap.hospitalja;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -19,12 +20,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class second_activity extends AppCompatActivity {
+public class SecondActivity extends AppCompatActivity {
 
     private ListView listContentView;
     private List<Hospital> hospitalList = new ArrayList<>();
     private AdapterListHospitais adapterListHospitais;
     private String SelectEspec;
+
 
 
 
@@ -49,7 +51,7 @@ public class second_activity extends AppCompatActivity {
             public void onResponse(Call<Hospital> call, Response<Hospital> response) {
                 Hospital hospital = response.body();
                 hospitalList.add(hospital);
-                adapterListHospitais = new AdapterListHospitais( second_activity.this, hospitalList);
+                adapterListHospitais = new AdapterListHospitais( SecondActivity.this, hospitalList);
                 listContentView.setAdapter(adapterListHospitais);
             }
 
@@ -61,16 +63,18 @@ public class second_activity extends AppCompatActivity {
 
 
 
-            //TODO ADICIONANDO A AÇÃO DE CLICK EMUM ITEM DA LISTA
+            //TODO ADICIONANDO A AÇÃO DE CLICK EM UM ITEM DA LISTA
             listContentView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     // ListView Clicked item index
                     int itemPosition = position;
 
-                    // Show Alert
-                    Toast.makeText(getApplicationContext(), "Position :"+itemPosition , Toast.LENGTH_LONG).show();
-
+                    Intent intent = new Intent(SecondActivity.this, ThirdAcitivity.class);
+                    Bundle params = new Bundle();
+                    params.putParcelableArrayList("Lista", (ArrayList<? extends Parcelable>) hospitalList);
+                    intent.putExtras(params);
+                    startActivity(intent);
                 }
             });
 
