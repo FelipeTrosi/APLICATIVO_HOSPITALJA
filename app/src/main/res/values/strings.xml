@@ -5,4 +5,18 @@
     <string name="Send">Buscar</string>
     <string name="title_activity_second_activity">second_activity</string>
     <string name="title_activity_third">ThirdActivity</string>
+
+
+    <string-array name="especialidades_selecionada">
+        <item>Cardiologia</item>
+        <item>Acuputura</item>
+        <item>Cirurgia Plástica</item>
+        <item>Dermatologia</item>
+        <item>Otorrinolaringologia</item>
+        <item>Nefrologia</item>
+        <item>Ginecologia</item>
+        <item>Nutrição</item>
+        <item>Fisioterapia</item>
+        <item>Urologia</item>
+    </string-array>
 </resources>

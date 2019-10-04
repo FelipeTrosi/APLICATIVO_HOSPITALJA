@@ -62,16 +62,13 @@ public class SecondActivity extends AppCompatActivity {
 
 
 
-            //ADICIONANDO A AÇÃO DE CLICK EM UM ITEM DA LISTA
+            //TODO ADICIONANDO A AÇÃO DE CLICK EM UM ITEM DA LISTA (ARRUMAR O ENVIO PARA RECEBER O HOSPITAL CERTO)
             listContentView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                     Intent intent = new Intent(SecondActivity.this, ThirdAcitivity.class);
                     Bundle params = new Bundle();
-
-
-
                     Toast.makeText(SecondActivity.this, "Posição: " + position, Toast.LENGTH_SHORT).show();
                     params.putParcelableArrayList("Lista", (ArrayList<? extends Parcelable>) hospitalList);
                     params.putInt("Position",position);
