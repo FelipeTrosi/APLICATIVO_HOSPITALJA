@@ -8,12 +8,12 @@ public class RetrofitConfig {
     private final Retrofit retrofit;
 
     public RetrofitConfig(){
-        this.retrofit =  new Retrofit.Builder().baseUrl("http://hospitalja.herokuapp.com/")
+        retrofit =  new Retrofit.Builder().baseUrl("http://hospitalja.herokuapp.com/")
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
     }
 
     public HospitalService getHospitalService(){
-        return this.retrofit.create(HospitalService.class);
+        return retrofit.create(HospitalService.class);
     }
 }

@@ -7,12 +7,15 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 
 import br.com.fiap.hospitalja.Model.Especialidade;
 import br.com.fiap.hospitalja.Model.Hospital;
 import br.com.fiap.hospitalja.R;
+import br.com.fiap.hospitalja.SecondActivity;
 
 public class AdapterListHospitais extends BaseAdapter {
 
@@ -24,6 +27,7 @@ public class AdapterListHospitais extends BaseAdapter {
         this.context = context;
         this.hospitalList = hospitalList;
     }
+
 
     @Override
     public int getCount() {

@@ -23,11 +23,9 @@ import retrofit2.Response;
 public class SecondActivity extends AppCompatActivity {
 
     private ListView listContentView;
-    private List<Hospital> hospitalList = new ArrayList<>();
+    private List<Hospital> hospitalList ;
     private AdapterListHospitais adapterListHospitais;
     private String SelectEspec;
-
-
 
 
     @Override
@@ -38,6 +36,7 @@ public class SecondActivity extends AppCompatActivity {
         listContentView = (ListView) findViewById(R.id.listContentView);
 
 
+
         if(intent != null){
             Bundle params = intent.getExtras();
             if (params != null){
@@ -45,40 +44,43 @@ public class SecondActivity extends AppCompatActivity {
             }
         }
 
-        Call<Hospital> call = new RetrofitConfig().getHospitalService().buscarHospital(SelectEspec);
-        call.enqueue(new Callback<Hospital>() {
+        Call<List<Hospital>> call = new RetrofitConfig().getHospitalService().buscarHospital(SelectEspec);
+        call.enqueue(new Callback<List<Hospital>>() {
             @Override
-            public void onResponse(Call<Hospital> call, Response<Hospital> response) {
-                Hospital hospital = response.body();
-                hospitalList.add(hospital);
+            public void onResponse(Call<List<Hospital>> call, Response<List<Hospital>> response) {
+                hospitalList =  response.body();
                 adapterListHospitais = new AdapterListHospitais( SecondActivity.this, hospitalList);
                 listContentView.setAdapter(adapterListHospitais);
             }
 
             @Override
-            public void onFailure(Call<Hospital> call, Throwable t) {
+            public void onFailure(Call<List<Hospital>> call, Throwable t) {
                 Log.e("HospitalService   ", "Erro ao buscar o hospital:" + t.getMessage());
-                 }
-            });
+            }
+        });
 
 
 
-            //TODO ADICIONANDO A AÇÃO DE CLICK EM UM ITEM DA LISTA
+
+            //ADICIONANDO A AÇÃO DE CLICK EM UM ITEM DA LISTA
             listContentView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    // ListView Clicked item index
-                    int itemPosition = position;
 
                     Intent intent = new Intent(SecondActivity.this, ThirdAcitivity.class);
                     Bundle params = new Bundle();
+
+
+
+                    Toast.makeText(SecondActivity.this, "Posição: " + position, Toast.LENGTH_SHORT).show();
                     params.putParcelableArrayList("Lista", (ArrayList<? extends Parcelable>) hospitalList);
+                    params.putInt("Position",position);
                     intent.putExtras(params);
                     startActivity(intent);
                 }
             });
-
-
     }
 
   }
+
+

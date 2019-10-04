@@ -3,6 +3,7 @@ package br.com.fiap.hospitalja.Model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Hospital implements Parcelable {
@@ -82,6 +83,33 @@ public class Hospital implements Parcelable {
         this.especialidades = especialidades;
     }
 
+    public Hospital(Parcel parcel) {
+        this.codigo = parcel.readInt();
+        this.nome = parcel.readString();
+        this.endereco = parcel.readString();
+        this.fila = parcel.readString();
+        this.tempoEspera = parcel.readString();
+        this.latitude = parcel.readString();
+        this.longitude = parcel.readString();
+        this.especialidades = new ArrayList<Especialidade>();
+        parcel.readList(this.especialidades, Especialidade.class.getClassLoader());
+    }
+
+    public Hospital() {
+    }
+
+    public Hospital(int codigo, String nome, String endereco, String fila, String tempoEspera, String latitude, String longitude, List<Especialidade> especialidades) {
+        this.codigo = codigo;
+        this.nome = nome;
+        this.endereco = endereco;
+        this.fila = fila;
+        this.tempoEspera = tempoEspera;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.especialidades = especialidades;
+    }
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -96,18 +124,12 @@ public class Hospital implements Parcelable {
         dest.writeString(tempoEspera);
         dest.writeString(latitude);
         dest.writeString(longitude);
-    }
-    protected Hospital(Parcel in) {
-        codigo = in.readInt();
-        nome = in.readString();
-        endereco = in.readString();
-        fila = in.readString();
-        tempoEspera = in.readString();
-        latitude = in.readString();
-        longitude = in.readString();
+        dest.writeList(especialidades);
     }
 
-    public static final Creator<Hospital> CREATOR = new Creator<Hospital>() {
+
+
+    public static final Parcelable.Creator<Hospital> CREATOR = new Parcelable.Creator<Hospital>() {
         @Override
         public Hospital createFromParcel(Parcel in) {
             return new Hospital(in);
@@ -118,18 +140,4 @@ public class Hospital implements Parcelable {
             return new Hospital[size];
         }
     };
-
-    public Hospital(int codigo, String nome, String endereco, String fila, String tempoEspera, String latitude, String longitude, List<Especialidade> especialidades) {
-        this.codigo = codigo;
-        this.nome = nome;
-        this.endereco = endereco;
-        this.fila = fila;
-        this.tempoEspera = tempoEspera;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.especialidades = especialidades;
-    }
-
-    public Hospital() {
-    }
 }

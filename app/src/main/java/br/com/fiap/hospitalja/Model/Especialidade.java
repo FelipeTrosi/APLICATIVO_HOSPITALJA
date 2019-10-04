@@ -37,7 +37,17 @@ public class Especialidade implements Parcelable {
         this.descricao = descricao;
     }
 
-    protected Especialidade(Parcel in) {
+    public Especialidade() {
+    }
+
+    public Especialidade(int codigo, String nome, String descricao) {
+        this.codigo = codigo;
+        this.nome = nome;
+        this.descricao = descricao;
+    }
+
+
+    public Especialidade(Parcel in) {
         codigo = in.readInt();
         nome = in.readString();
         descricao = in.readString();
@@ -65,14 +75,5 @@ public class Especialidade implements Parcelable {
         dest.writeInt(codigo);
         dest.writeString(nome);
         dest.writeString(descricao);
-    }
-
-    public Especialidade(int codigo, String nome, String descricao) {
-        this.codigo = codigo;
-        this.nome = nome;
-        this.descricao = descricao;
-    }
-
-    public Especialidade() {
     }
 }
