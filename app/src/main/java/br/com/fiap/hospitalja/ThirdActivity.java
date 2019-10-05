@@ -12,7 +12,7 @@ import java.util.List;
 import br.com.fiap.hospitalja.Model.Especialidade;
 import br.com.fiap.hospitalja.Model.Hospital;
 
-public class ThirdAcitivity extends AppCompatActivity {
+public class ThirdActivity extends AppCompatActivity {
 
     private TextView nomeTextView;
     private TextView enderecoTextView;
