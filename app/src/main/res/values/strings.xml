@@ -19,4 +19,9 @@
         <item>Fisioterapia</item>
         <item>Urologia</item>
     </string-array>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_location_permission">Permissão de localização</string>
+    <string name="text_location_permission">Você precisa aceitar a permissão, pois sem ela o aplicativo não irá funcionar</string>
+    <string name="ok">Ok</string>
+
 </resources>

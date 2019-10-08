@@ -1,10 +1,17 @@
 package br.com.fiap.hospitalja;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
+
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +19,7 @@ import java.util.List;
 import br.com.fiap.hospitalja.Model.Especialidade;
 import br.com.fiap.hospitalja.Model.Hospital;
 
-public class ThirdActivity extends AppCompatActivity {
+public class ThirdActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private TextView nomeTextView;
     private TextView enderecoTextView;
@@ -20,8 +27,13 @@ public class ThirdActivity extends AppCompatActivity {
     private TextView tempoTextView;
     private TextView especialidadeTextView;
 
-    private List<Hospital> lista = new ArrayList<>();
-    private int _position;
+    private Hospital hospital;
+    private double latitude;
+    private double longitude;
+
+    //Google Maps
+    private MapView mMapView;
+    private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +41,7 @@ public class ThirdActivity extends AppCompatActivity {
         setContentView(R.layout.third_acitivity);
         Intent intent = getIntent();
 
-
+        initGoogleMap(savedInstanceState);
 
         this.nomeTextView = (TextView) findViewById(R.id.nomeTextView);
         this.enderecoTextView = (TextView) findViewById(R.id.enderecoTextView);
@@ -41,28 +53,98 @@ public class ThirdActivity extends AppCompatActivity {
         if(intent != null){
             Bundle params = intent.getExtras();
             if (params != null){
-                lista = params.getParcelableArrayList("Lista");
-                _position = params.getInt("Position");
-
+                hospital = params.getParcelable("Hospital");
+                latitude = params.getDouble("Latitude");
+                longitude = params.getDouble("Logitude");
             }
         }
 
 
-        for(Hospital h: lista){
 
-            nomeTextView.setText(h.getNome());
-            enderecoTextView.setText(h.getEndereco());
-            filaTextView.setText(h.getFila());
-            tempoTextView.setText(h.getTempoEspera());
-            for(Especialidade e: h.getEspecialidades()){
 
-                if(especialidadeTextView.getText().equals("")){
-                    especialidadeTextView.setText(e.getNome());
-                }else {
-                    especialidadeTextView.setText(", "+e.getNome());
-                }
+            nomeTextView.setText(hospital.getNome());
+            enderecoTextView.setText(hospital.getEndereco());
+            filaTextView.setText(hospital.getFila());
+            tempoTextView.setText(hospital.getTempoEspera());
+            for(Especialidade e: hospital.getEspecialidades()){
+
+                especialidadeTextView.setText(especialidadeTextView.getText()+ " "+e.getNome());
             }
+
+
+    }
+
+    private void initGoogleMap(Bundle savedInstanceState){
+        // *** IMPORTANT ***
+        // MapView requires that the Bundle you pass contain _ONLY_ MapView SDK
+        // objects or sub-Bundles.
+        Bundle mapViewBundle = null;
+        if (savedInstanceState != null) {
+            mapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY);
+        }
+        mMapView = (MapView) findViewById(R.id.mapView);
+        mMapView.onCreate(mapViewBundle);
+
+        mMapView.getMapAsync(this);
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        Bundle mapViewBundle = outState.getBundle(MAPVIEW_BUNDLE_KEY);
+        if (mapViewBundle == null) {
+            mapViewBundle = new Bundle();
+            outState.putBundle(MAPVIEW_BUNDLE_KEY, mapViewBundle);
         }
 
+        mMapView.onSaveInstanceState(mapViewBundle);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mMapView.onResume();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mMapView.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mMapView.onStop();
+    }
+
+    @Override
+    public void onMapReady(GoogleMap map) {
+        LatLng latLng = new LatLng(latitude,longitude);
+        map.setMyLocationEnabled(true);
+        map.getCameraPosition();
+        map.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));
+
+    }
+
+    @Override
+    public void onPause() {
+        mMapView.onPause();
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        mMapView.onDestroy();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mMapView.onLowMemory();
     }
 }

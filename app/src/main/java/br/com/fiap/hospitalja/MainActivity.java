@@ -1,20 +1,23 @@
 package br.com.fiap.hospitalja;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -32,14 +35,22 @@ import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import br.com.fiap.hospitalja.Permissions.AndroidPermissions;
+
 public class MainActivity extends AppCompatActivity {
 
-    //Localização
+    //Permissões
+    //Permission
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+
+     //Localização
     FusedLocationProviderClient client;
 
     //Interface
     private Button buttonSend;
     private Spinner SelectEspec;
+    private double longitude;
+    private double latitude;
 
 
     @Override
@@ -58,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.especialidades_selecionada, android.R.layout.simple_spinner_item);
         SelectEspec.setAdapter(adapter);
 
+
+
         //Envio de especialidade para a SecondActivity
         this.buttonSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,12 +79,100 @@ public class MainActivity extends AppCompatActivity {
 
                 Bundle params = new Bundle();
                 params.putString("SelectEspec", SelectEspec.getSelectedItem().toString());
+                params.putDouble("Latitude", latitude);
+                params.putDouble("Longitude", longitude);
                 intent.putExtras(params);
 
                 startActivity(intent);
             }
         });
 
+        checkLocationPermission();
+    }
+    public boolean checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.title_location_permission)
+                        .setMessage(R.string.text_location_permission)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //Prompt the user once explanation has been shown
+                                ActivityCompat.requestPermissions(MainActivity.this,
+                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                        MY_PERMISSIONS_REQUEST_LOCATION);
+                            }
+                        })
+                        .create()
+                        .show();
+
+            } else  {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_LOCATION);
+            }
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_LOCATION:
+            {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // location-related task you need to do.
+                    if (ActivityCompat.checkSelfPermission(this,
+                            Manifest.permission.ACCESS_FINE_LOCATION)
+                            == PackageManager.PERMISSION_GRANTED) {
+                        client.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                            @Override
+                            public void onSuccess(Location location) {
+                                Log.i("Teste", location.getLatitude() + " " +location.getLongitude());
+                                longitude = location.getLongitude();
+                                latitude = location.getLatitude();
+
+                            }
+                        })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.i("Teste", "Erro ao pegar a localização");
+                                    }
+                                });
+
+                    }
+
+                }
+                else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    finish();
+                }
+                return;
+            }
+        }
     }
     @Override
     protected void onResume() {
@@ -98,21 +199,13 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
 
-        //Pegando a ultima localicão do user
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
         client.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
                 Log.i("Teste", location.getLatitude() + " " +location.getLongitude());
+                longitude = location.getLongitude();
+                latitude = location.getLatitude();
+
             }
         })
         .addOnFailureListener(new OnFailureListener() {
@@ -130,6 +223,8 @@ public class MainActivity extends AppCompatActivity {
 
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
 
+
+        //Checagem de localizao por Internet(GPS, Dados Móveis)
         SettingsClient settingsClient = LocationServices.getSettingsClient(this);
         settingsClient.checkLocationSettings(builder.build()).addOnSuccessListener(new OnSuccessListener<LocationSettingsResponse>() {
             @Override
@@ -151,6 +246,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Recuperando localizações pelos intervalos de tempo
         LocationCallback locationCallback = new LocationCallback(){
             @Override
             public void onLocationResult(LocationResult locationResult) {
@@ -165,6 +261,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
+            //Retorno bool se há uma localização disponivel
             @Override
             public void onLocationAvailability(LocationAvailability locationAvailability) {
                 super.onLocationAvailability(locationAvailability);
@@ -172,6 +269,9 @@ public class MainActivity extends AppCompatActivity {
             }
 
         };
-        client.requestLocationUpdates(locationRequest, locationCallback, null);
+
     }
+
+
+
 }

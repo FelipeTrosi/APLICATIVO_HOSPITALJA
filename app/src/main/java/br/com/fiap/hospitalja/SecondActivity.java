@@ -2,15 +2,17 @@ package br.com.fiap.hospitalja;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
+import com.google.maps.DirectionsApiRequest;
+import com.google.maps.GeoApiContext;
+import com.google.maps.PendingResult;
+import com.google.maps.model.DirectionsResult;
+
 import java.util.List;
 import br.com.fiap.hospitalja.Adapter.AdapterListHospitais;
 import br.com.fiap.hospitalja.Model.Hospital;
@@ -19,13 +21,19 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
 public class SecondActivity extends AppCompatActivity {
 
     private ListView listContentView;
     private List<Hospital> hospitalList ;
     private AdapterListHospitais adapterListHospitais;
     private String SelectEspec;
+    private GeoApiContext mGeoApiContext;
+    private String distancia;
+    private double myLatitude;
+    private double myLongitude;
+
+
+
 
 
     @Override
@@ -35,12 +43,18 @@ public class SecondActivity extends AppCompatActivity {
         Intent intent = getIntent();
         listContentView = (ListView) findViewById(R.id.listContentView);
 
-
+        if(mGeoApiContext == null){
+            mGeoApiContext = new GeoApiContext.Builder()
+                    .apiKey(getString(R.string.google_maps_key))
+                    .build();
+        }
 
         if(intent != null){
             Bundle params = intent.getExtras();
             if (params != null){
                 SelectEspec = params.getString("SelectEspec");
+                myLongitude = params.getDouble("Longitude");
+                myLatitude = params.getDouble("Latitude");
             }
         }
 
@@ -58,21 +72,23 @@ public class SecondActivity extends AppCompatActivity {
                 Log.e("HospitalService   ", "Erro ao buscar o hospital:" + t.getMessage());
             }
         });
-            //ADICIONANDO A AÇÃO DE CLICK EM UM ITEM DA LISTA (ARRUMAR O ENVIO PARA RECEBER O HOSPITAL CERTO)
+
             listContentView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                     Intent intent = new Intent(SecondActivity.this, ThirdActivity.class);
                     Bundle params = new Bundle();
-                    Toast.makeText(SecondActivity.this, "Posição: " + position, Toast.LENGTH_SHORT).show();
-                    params.putParcelableArrayList("Lista", (ArrayList<? extends Parcelable>) hospitalList);
-                    params.putInt("Position",position);
+
+                    Hospital hospital = hospitalList.get(position);
+                    params.putParcelable("Hospital",hospital);
                     intent.putExtras(params);
                     startActivity(intent);
                 }
             });
     }
+    /**/
+
 
   }
 
