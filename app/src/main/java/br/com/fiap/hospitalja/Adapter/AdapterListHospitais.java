@@ -1,15 +1,24 @@
 package br.com.fiap.hospitalja.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.text.Layout;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.google.maps.DirectionsApiRequest;
+import com.google.maps.GeoApiContext;
+import com.google.maps.PendingResult;
+import com.google.maps.model.DirectionsResult;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 
 import br.com.fiap.hospitalja.Model.Especialidade;
@@ -21,6 +30,8 @@ public class AdapterListHospitais extends BaseAdapter {
 
     private Context context;
     private List<Hospital> hospitalList;
+    Random random = new Random();
+
 
 
     public AdapterListHospitais(Context context, List<Hospital> hospitalList) {
@@ -48,7 +59,6 @@ public class AdapterListHospitais extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
 
-
             View view = View.inflate(this.context, R.layout.lista,null);
 
             TextView nameTextView = (TextView) view.findViewById(R.id.nameTextView);
@@ -57,11 +67,17 @@ public class AdapterListHospitais extends BaseAdapter {
             TextView tempoEsperaTextView = (TextView) view.findViewById(R.id.tempoEsperaTextView);
 
             nameTextView.setText(this.hospitalList.get(position).getNome());
+
             //TODO Aqui vira a Distancia calculada
-            distanceTextView.setText("21 km");
+
+            distanceTextView.setText((random.nextInt(25)+1) + " km");
+
             filaTextView.setText( this.hospitalList.get(position).getFila());
             tempoEsperaTextView.setText(this.hospitalList.get(position).getTempoEspera());
 
         return view;
     }
+
+        /*Double.parseDouble(this.hospitalList.get(position).getLatitude())
+                    ,Double.parseDouble(this.hospitalList.get(position).getLongitude())*/
 }

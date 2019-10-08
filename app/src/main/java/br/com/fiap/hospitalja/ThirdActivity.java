@@ -27,7 +27,7 @@ public class ThirdActivity extends AppCompatActivity implements OnMapReadyCallba
     private TextView tempoTextView;
     private TextView especialidadeTextView;
 
-    private List<Hospital> lista = new ArrayList<>();
+    private Hospital hospital;
     private double latitude;
     private double longitude;
 
@@ -53,28 +53,24 @@ public class ThirdActivity extends AppCompatActivity implements OnMapReadyCallba
         if(intent != null){
             Bundle params = intent.getExtras();
             if (params != null){
-                lista = params.getParcelableArrayList("Lista");
+                hospital = params.getParcelable("Hospital");
                 latitude = params.getDouble("Latitude");
                 longitude = params.getDouble("Logitude");
             }
         }
 
 
-        for(Hospital h: lista){
 
-            nomeTextView.setText(h.getNome());
-            enderecoTextView.setText(h.getEndereco());
-            filaTextView.setText(h.getFila());
-            tempoTextView.setText(h.getTempoEspera());
-            for(Especialidade e: h.getEspecialidades()){
 
-                if(especialidadeTextView.getText().equals("")){
-                    especialidadeTextView.setText(e.getNome());
-                }else {
-                    especialidadeTextView.setText(", "+e.getNome());
-                }
+            nomeTextView.setText(hospital.getNome());
+            enderecoTextView.setText(hospital.getEndereco());
+            filaTextView.setText(hospital.getFila());
+            tempoTextView.setText(hospital.getTempoEspera());
+            for(Especialidade e: hospital.getEspecialidades()){
+
+                especialidadeTextView.setText(especialidadeTextView.getText()+ " "+e.getNome());
             }
-        }
+
 
     }
 
