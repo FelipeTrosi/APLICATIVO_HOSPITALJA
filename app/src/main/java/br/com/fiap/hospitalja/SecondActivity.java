@@ -27,7 +27,7 @@ public class SecondActivity extends AppCompatActivity {
     private List<Hospital> hospitalList ;
     private AdapterListHospitais adapterListHospitais;
     private String SelectEspec;
-    private GeoApiContext mGeoApiContext;
+
     private String distancia;
     private double myLatitude;
     private double myLongitude;
@@ -43,11 +43,7 @@ public class SecondActivity extends AppCompatActivity {
         Intent intent = getIntent();
         listContentView = (ListView) findViewById(R.id.listContentView);
 
-        if(mGeoApiContext == null){
-            mGeoApiContext = new GeoApiContext.Builder()
-                    .apiKey(getString(R.string.google_maps_key))
-                    .build();
-        }
+
 
         if(intent != null){
             Bundle params = intent.getExtras();

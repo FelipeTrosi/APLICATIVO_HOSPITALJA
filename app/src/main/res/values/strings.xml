@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AM_HospitalJa</string>
+    <string name="app_name">HospitalJa</string>
     <string name="LabelEspec">Escolha a especialidade</string>
     <string name="SelectEspec">Selecione</string>
     <string name="Send">Buscar</string>

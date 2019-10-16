@@ -67,11 +67,11 @@ public class AdapterListHospitais extends BaseAdapter {
             TextView tempoEsperaTextView = (TextView) view.findViewById(R.id.tempoEsperaTextView);
 
             nameTextView.setText(this.hospitalList.get(position).getNome());
-
-            //TODO Aqui vira a Distancia calculada
-
-            distanceTextView.setText((random.nextInt(25)+1) + " km");
-
+            if (this.hospitalList.get(position).getCodigo() == 1){
+                distanceTextView.setText(("29 km"));
+            }else {
+                distanceTextView.setText((random.nextInt(25) + 1) + " km");
+            }
             filaTextView.setText( this.hospitalList.get(position).getFila());
             tempoEsperaTextView.setText(this.hospitalList.get(position).getTempoEspera());
 

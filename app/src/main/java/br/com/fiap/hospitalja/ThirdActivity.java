@@ -3,6 +3,7 @@ package br.com.fiap.hospitalja;
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -11,7 +12,12 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.DirectionsApiRequest;
+import com.google.maps.GeoApiContext;
+import com.google.maps.PendingResult;
+import com.google.maps.model.DirectionsResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +40,7 @@ public class ThirdActivity extends AppCompatActivity implements OnMapReadyCallba
     //Google Maps
     private MapView mMapView;
     private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
+    private GeoApiContext mGeoApiContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +80,38 @@ public class ThirdActivity extends AppCompatActivity implements OnMapReadyCallba
 
 
     }
+    private void calculateDirections(Marker marker){
+        Log.d("Teste", "calculateDirections: calculating directions.");
+
+        com.google.maps.model.LatLng destination = new com.google.maps.model.LatLng(
+                marker.getPosition().latitude,
+                marker.getPosition().longitude
+        );
+        DirectionsApiRequest directions = new DirectionsApiRequest(mGeoApiContext);
+
+        directions.alternatives(false);
+        directions.origin(
+                new com.google.maps.model.LatLng(
+                        this.latitude,
+                        this.longitude
+                )
+        );
+        Log.d("Teste", "calculateDirections: destination: " + destination.toString());
+        directions.destination(destination).setCallback(new PendingResult.Callback<DirectionsResult>() {
+            @Override
+            public void onResult(DirectionsResult result) {
+                Log.d("Teste", "onResult: routes: " + result.routes[0].toString());
+                Log.d("Teste", "onResult: geocodedWayPoints: " + result.geocodedWaypoints[0].toString());
+                Log.d("Teste", "onResult: geocodedWayPoints: " + result.routes[0].legs[0].distance);
+            }
+
+            @Override
+            public void onFailure(Throwable e) {
+                Log.e("Teste", "onFailure: " + e.getMessage() );
+
+            }
+        });
+    }
 
     private void initGoogleMap(Bundle savedInstanceState){
         // *** IMPORTANT ***
@@ -84,9 +123,14 @@ public class ThirdActivity extends AppCompatActivity implements OnMapReadyCallba
         }
         mMapView = (MapView) findViewById(R.id.mapView);
         mMapView.onCreate(mapViewBundle);
-
         mMapView.getMapAsync(this);
 
+
+        if(mGeoApiContext == null){
+            mGeoApiContext = new GeoApiContext.Builder()
+                    .apiKey(getString(R.string.google_maps_key))
+                    .build();
+        }
     }
 
     @Override
@@ -123,10 +167,18 @@ public class ThirdActivity extends AppCompatActivity implements OnMapReadyCallba
     @Override
     public void onMapReady(GoogleMap map) {
         LatLng latLng = new LatLng(latitude,longitude);
+        LatLng latLng1 = new LatLng(Double.parseDouble(
+                hospital.getLatitude()),
+                Double.parseDouble(hospital.getLongitude()));
+        MarkerOptions options = new MarkerOptions().position(latLng1);
+        Marker marker = map.addMarker(options);
+
+
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng1,11),4000, null );
         map.setMyLocationEnabled(true);
-        map.getCameraPosition();
-        map.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));
+        calculateDirections(marker);
+
+
 
     }
 
