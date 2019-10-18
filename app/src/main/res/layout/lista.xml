@@ -16,8 +16,10 @@
             android:layout_gravity="center_vertical"
             android:gravity="center_horizontal"
             android:includeFontPadding="true"
+            android:text="Hospital Felipeta Zika do Baile"
+            android:textSize="17dp"
             android:textStyle="bold"
-            app:fontFamily="sans-serif-smallcaps" />
+            app:fontFamily="@font/roboto_slab_light" />
 
         <GridLayout
             android:columnCount="5"
@@ -37,19 +39,24 @@
                     android:gravity="center_horizontal"
                     android:includeFontPadding="true"
                     android:text="Distância "
+                    android:textColor="#F9A825"
+                    android:textSize="15dp"
                     android:textStyle="bold"
-                    app:fontFamily="sans-serif-condensed-light" />
+                    app:fontFamily="@font/roboto_slab_light" />
+
                 <TextView
                     android:id="@+id/distanceTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_row="0"
                     android:layout_column="0"
-                    android:layout_margin="30dp"
                     android:layout_columnWeight="1"
                     android:layout_gravity="bottom|fill"
+                    android:layout_margin="30dp"
                     android:gravity="center_horizontal"
-                    />
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    app:fontFamily="@font/roboto_slab_light" />
 
                 <TextView
                     android:id="@+id/tempoLabelTextView"
@@ -62,8 +69,10 @@
                     android:gravity="center_horizontal"
                     android:includeFontPadding="true"
                     android:text="Pessoas na fila"
+                    android:textColor="#283593"
+                    android:textSize="15dp"
                     android:textStyle="bold"
-                    app:fontFamily="sans-serif-condensed-light" />
+                    app:fontFamily="@font/roboto_slab_light" />
 
                 <TextView
                     android:id="@+id/filaTextView"
@@ -73,7 +82,10 @@
                     android:layout_column="1"
                     android:layout_columnWeight="2"
                     android:layout_gravity="center|fill_horizontal"
-                    android:gravity="center_horizontal" />
+                    android:gravity="center_horizontal"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    app:fontFamily="@font/roboto_slab_light" />
 
                 <TextView
                     android:id="@+id/tempoEsperaLabelTextView"
@@ -86,8 +98,10 @@
                     android:gravity="center_horizontal"
                     android:includeFontPadding="true"
                     android:text="Tempo de espera"
+                    android:textColor="#283593"
+                    android:textSize="15dp"
                     android:textStyle="bold"
-                    app:fontFamily="sans-serif-condensed-light" />
+                    app:fontFamily="@font/roboto_slab_light" />
 
 
                 <TextView
@@ -98,7 +112,10 @@
                     android:layout_column="2"
                     android:layout_columnWeight="2"
                     android:layout_gravity="center|fill_horizontal"
-                    android:gravity="center_horizontal" />
+                    android:gravity="center_horizontal"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    app:fontFamily="@font/roboto_slab_light" />
         </GridLayout>
 
 </LinearLayout>

@@ -2,16 +2,16 @@ package br.com.fiap.hospitalja;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
-import com.google.maps.DirectionsApiRequest;
-import com.google.maps.GeoApiContext;
-import com.google.maps.PendingResult;
-import com.google.maps.model.DirectionsResult;
 
 import java.util.List;
 import br.com.fiap.hospitalja.Adapter.AdapterListHospitais;
@@ -43,6 +43,8 @@ public class SecondActivity extends AppCompatActivity {
         Intent intent = getIntent();
         listContentView = (ListView) findViewById(R.id.listContentView);
 
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.title_toolbar);
 
 
         if(intent != null){

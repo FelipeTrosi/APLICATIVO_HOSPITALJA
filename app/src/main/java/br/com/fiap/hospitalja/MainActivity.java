@@ -8,11 +8,12 @@ import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import android.location.LocationManager;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -35,7 +36,6 @@ import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
-import br.com.fiap.hospitalja.Permissions.AndroidPermissions;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -57,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.title_toolbar);
 
         //Location
         client = LocationServices.getFusedLocationProviderClient(this);
