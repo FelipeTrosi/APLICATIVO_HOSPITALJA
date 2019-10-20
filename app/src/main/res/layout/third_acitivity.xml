@@ -7,30 +7,43 @@
     tools:context=".ThirdActivity">
 
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/botaoVoltar1"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:adjustViewBounds="false"
+        android:clickable="true"
+        android:focusable="true"
+        android:foregroundGravity="bottom|right"
+        android:tint="#FFFFFF"
+        app:backgroundTint="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="@+id/mapView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_revert" />
+
     <TextView
         android:id="@+id/nomeLabelTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
+        android:layout_marginBottom="280dp"
         android:text="Nome"
         android:textSize="15dp"
         android:textStyle="bold"
         app:fontFamily="@font/roboto_slab_light"
-        app:layout_constraintBottom_toTopOf="@+id/nomeTextView"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mapView" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/enderecoLabelTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
+        android:layout_marginTop="2dp"
         android:text="Endereco"
         android:textSize="15dp"
         android:textStyle="bold"
         app:fontFamily="@font/roboto_slab_light"
-        app:layout_constraintBottom_toTopOf="@+id/enderecoTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nomeTextView" />
@@ -39,10 +52,9 @@
         android:id="@+id/enderecoTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="21dp"
+        android:layout_marginTop="4dp"
         android:textSize="15dp"
         app:fontFamily="@font/roboto_slab_light"
-        app:layout_constraintBottom_toTopOf="@+id/filaTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/enderecoLabelTextView" />
@@ -51,7 +63,7 @@
         android:id="@+id/filaLabelTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="2dp"
         android:text="Fila"
         android:textSize="15dp"
         android:textStyle="bold"
@@ -64,13 +76,12 @@
         android:id="@+id/filaTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="23dp"
+        android:layout_marginTop="19dp"
         android:textSize="15dp"
         app:fontFamily="@font/roboto_slab_light"
-        app:layout_constraintBottom_toTopOf="@+id/tempoTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enderecoTextView" />
+        app:layout_constraintTop_toTopOf="@+id/filaLabelTextView" />
 
     <TextView
         android:id="@+id/tempoLabelTextView"
@@ -91,21 +102,19 @@
         android:layout_height="wrap_content"
         android:textSize="15dp"
         app:fontFamily="@font/roboto_slab_light"
-        app:layout_constraintBottom_toTopOf="@+id/especialidadeLabelTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/filaTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/tempoLabelTextView" />
 
     <TextView
         android:id="@+id/especialidadeLabelTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
+        android:layout_marginTop="1dp"
         android:text="Especialidades "
         android:textSize="15dp"
         android:textStyle="bold"
         app:fontFamily="@font/roboto_slab_light"
-        app:layout_constraintBottom_toTopOf="@+id/especialidadeTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tempoTextView" />
@@ -114,10 +123,9 @@
         android:id="@+id/especialidadeTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="69dp"
+        android:layout_marginTop="2dp"
         android:textSize="15dp"
         app:fontFamily="@font/roboto_slab_light"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/especialidadeLabelTextView" />
@@ -126,10 +134,9 @@
         android:id="@+id/nomeTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
+        android:layout_marginTop="2dp"
         android:textSize="15dp"
         app:fontFamily="@font/roboto_slab_light"
-        app:layout_constraintBottom_toTopOf="@+id/enderecoLabelTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nomeLabelTextView" />
@@ -139,7 +146,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="34dp"
-        android:layout_marginBottom="27dp"
+        android:layout_marginBottom="26dp"
         app:layout_constraintBottom_toTopOf="@+id/nomeLabelTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

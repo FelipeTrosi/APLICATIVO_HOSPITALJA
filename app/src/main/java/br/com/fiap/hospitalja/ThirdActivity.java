@@ -6,6 +6,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -16,6 +17,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.maps.DirectionsApiRequest;
 import com.google.maps.GeoApiContext;
 import com.google.maps.PendingResult;
@@ -34,6 +36,7 @@ public class ThirdActivity extends AppCompatActivity implements OnMapReadyCallba
     private TextView filaTextView;
     private TextView tempoTextView;
     private TextView especialidadeTextView;
+    private FloatingActionButton botaoVoltar1;
 
     private Hospital hospital;
     private double latitude;
@@ -52,6 +55,17 @@ public class ThirdActivity extends AppCompatActivity implements OnMapReadyCallba
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.title_toolbar);
+
+        this.botaoVoltar1 = (FloatingActionButton) findViewById(R.id.botaoVoltar1);
+
+        botaoVoltar1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it = new Intent(ThirdActivity.this, SecondActivity.class);
+                it.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                startActivity(it);
+            }
+        });
 
         initGoogleMap(savedInstanceState);
 

@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.List;
 import br.com.fiap.hospitalja.Adapter.AdapterListHospitais;
 import br.com.fiap.hospitalja.Model.Hospital;
@@ -27,6 +29,7 @@ public class SecondActivity extends AppCompatActivity {
     private List<Hospital> hospitalList ;
     private AdapterListHospitais adapterListHospitais;
     private String SelectEspec;
+    private FloatingActionButton botaoVoltar;
 
     private String distancia;
     private double myLatitude;
@@ -45,6 +48,17 @@ public class SecondActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.title_toolbar);
+
+        this.botaoVoltar = (FloatingActionButton) findViewById(R.id.botaoVoltar);
+
+        botaoVoltar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it = new Intent(SecondActivity.this, MainActivity.class);
+                it.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                startActivity(it);
+            }
+        });
 
 
         if(intent != null){
